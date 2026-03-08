@@ -978,11 +978,11 @@
         <h2 class="form-card__title" id="form-heading">Send Me the Template</h2>
         <p class="form-card__sub">Drop your details below - I'll send the template straight to your inbox.</p>
 
-        <!-- FORM - connect to GHL later, action="#" placeholder -->
+        <!-- FORM - formsubmit.co captures leads + emails Kelly -->
         <form
           class="form"
           id="lead-form"
-          action="#"
+          action="https://formsubmit.co/ajax/aiwithsoulofficial@gmail.com"
           method="POST"
           novalidate
           aria-label="Get the free Content Command Centre template"
@@ -1129,7 +1129,7 @@
     var successEl = document.getElementById('form-success');
 
     form.addEventListener('submit', function(e) {
-      e.preventDefault(); // Remove this line when GHL endpoint is live
+      e.preventDefault();
 
       var firstName = document.getElementById('first-name');
       var email = document.getElementById('email');
@@ -1168,12 +1168,34 @@
 
       if (!valid) return;
 
-      // Show success state
-      form.style.display = 'none';
-      successEl.style.display = 'flex';
+      // Disable button while submitting
+      var submitBtn = form.querySelector('.form__submit');
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
 
-      // NOTE: When GHL is connected, remove the preventDefault and
-      // success state above - GHL handles redirect/thank you page.
+      // POST to formsubmit.co (emails Kelly every lead)
+      fetch('https://formsubmit.co/ajax/aiwithsoulofficial@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          first_name: firstName.value.trim(),
+          email: email.value.trim(),
+          phone: phone.value.trim(),
+          _subject: 'New Freebie Lead - Command Centre',
+          _template: 'table'
+        })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        // Show success state regardless (don't block download on email issues)
+        form.style.display = 'none';
+        successEl.style.display = 'flex';
+      })
+      .catch(function(err) {
+        // Still show success - don't punish the user for backend issues
+        form.style.display = 'none';
+        successEl.style.display = 'flex';
+      });
     });
 
     // ============================================================
