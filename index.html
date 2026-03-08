@@ -101,10 +101,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
+      height: auto;
+      padding: 16px 24px;
       max-width: var(--max-w-wide);
       margin-inline: auto;
-      padding-inline: 24px;
     }
     .nav__brand {
       display: flex;
@@ -781,7 +781,7 @@
   <nav class="nav" role="navigation" aria-label="Site navigation">
     <div class="nav__inner">
       <a href="https://aiwithsoul.com.au" class="nav__brand" target="_blank" rel="noopener noreferrer">
-        <img src="logo.png" alt="AI with Soul" style="height:32px;width:auto;" />
+        <img src="logo.png" alt="AI with Soul" style="height:128px;width:auto;" />
       </a>
       <div style="display:flex;gap:12px;align-items:center;">
         <a href="https://aiwithsoul.com.au" class="nav__cta" target="_blank" rel="noopener noreferrer" style="background:transparent;color:var(--navy);border:1.5px solid var(--gold);">Work with Me</a>
@@ -911,20 +911,20 @@
 
         <li class="step">
           <div class="step__number" aria-hidden="true">01</div>
-          <h3 class="step__title">Brain Dump Your Business</h3>
-          <p class="step__body">Brand name, colours, what you sell, what you're posting about. Just dump it in. The form does the organising for you.</p>
+          <h3 class="step__title">Grab the Free Skill File</h3>
+          <p class="step__body">Download the file and load it into Claude - works with Claude Code, Claude Desktop, or claude.ai. Pick whichever you use.</p>
         </li>
 
         <li class="step">
           <div class="step__number" aria-hidden="true">02</div>
-          <h3 class="step__title">Click Generate</h3>
-          <p class="step__body">One click builds your personalised HTML file. No accounts, no cloud, no waiting. It generates instantly in your browser.</p>
+          <h3 class="step__title">Tell Claude About Your Business</h3>
+          <p class="step__body">Brand name, colours, what you sell, what you're posting about. Just dump it in. Claude builds your personalised dashboard in seconds.</p>
         </li>
 
         <li class="step">
           <div class="step__number" aria-hidden="true">03</div>
           <h3 class="step__title">Open It When Your Brain Goes Blank</h3>
-          <p class="step__body">Save it anywhere. Open it anytime - even offline. It remembers what you've done and what's next, so you don't have to.</p>
+          <p class="step__body">Save it anywhere. Open it anytime - even offline. It remembers what you've done and what's next. To update, just ask Claude.</p>
         </li>
 
       </ol>
@@ -1041,15 +1041,48 @@
         <div class="form-success" id="form-success" role="alert" aria-live="polite">
           <div class="form-success__icon" aria-hidden="true">&#10003;</div>
           <p class="form-success__title">You're in!</p>
-          <p class="form-success__body" style="margin-bottom:20px;">Here's your Command Centre skill file. Three steps and you're set:</p>
-          <div style="text-align:left;background:var(--grey-100);border-radius:var(--radius-md);padding:20px 24px;margin-bottom:20px;">
-            <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">Setup (60 seconds)</p>
+          <p class="form-success__body" style="margin-bottom:20px;">Here's your Command Centre skill file. Pick your setup below:</p>
+
+          <!-- TAB SELECTOR -->
+          <div style="display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--grey-200);" id="setup-tabs">
+            <button onclick="showTab('code')" class="setup-tab active" style="flex:1;padding:10px 16px;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--navy);background:none;border:none;border-bottom:2px solid var(--gold);margin-bottom:-2px;cursor:pointer;">Claude Code (CLI)</button>
+            <button onclick="showTab('desktop')" class="setup-tab" style="flex:1;padding:10px 16px;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Claude Desktop</button>
+            <button onclick="showTab('web')" class="setup-tab" style="flex:1;padding:10px 16px;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Claude.ai</button>
+          </div>
+
+          <!-- CLAUDE CODE TAB -->
+          <div id="tab-code" class="setup-panel" style="text-align:left;background:var(--grey-100);border-radius:0 0 var(--radius-md) var(--radius-md);padding:20px 24px;margin-bottom:20px;">
+            <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">Claude Code Setup (60 seconds)</p>
             <ol style="font-size:14px;color:var(--text-muted);line-height:1.8;padding-left:18px;">
               <li>Download the file below</li>
               <li>Save it to <code style="font-family:var(--font-mono);font-size:12px;background:var(--grey-200);padding:2px 6px;border-radius:4px;">~/.claude/skills/command-centre/SKILL.md</code></li>
               <li>Run <code style="font-family:var(--font-mono);font-size:12px;background:var(--grey-200);padding:2px 6px;border-radius:4px;">/command-centre ~/your-project-folder</code></li>
             </ol>
             <p style="font-size:13px;color:var(--text-muted);margin-top:12px;">To update anytime, just tell Claude: "update my command centre"</p>
+          </div>
+
+          <!-- CLAUDE DESKTOP TAB -->
+          <div id="tab-desktop" class="setup-panel" style="display:none;text-align:left;background:var(--grey-100);border-radius:0 0 var(--radius-md) var(--radius-md);padding:20px 24px;margin-bottom:20px;">
+            <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">Claude Desktop Setup (60 seconds)</p>
+            <ol style="font-size:14px;color:var(--text-muted);line-height:1.8;padding-left:18px;">
+              <li>Download the file below</li>
+              <li>Open Claude Desktop and start a new project</li>
+              <li>Click the <strong>project knowledge</strong> icon (book icon) and upload the file</li>
+              <li>Tell Claude: "Build me a Command Centre for my business" and paste in your brand details</li>
+            </ol>
+            <p style="font-size:13px;color:var(--text-muted);margin-top:12px;">Claude will generate your personalised HTML dashboard. Save it anywhere and open in your browser.</p>
+          </div>
+
+          <!-- CLAUDE.AI TAB -->
+          <div id="tab-web" class="setup-panel" style="display:none;text-align:left;background:var(--grey-100);border-radius:0 0 var(--radius-md) var(--radius-md);padding:20px 24px;margin-bottom:20px;">
+            <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">Claude.ai Setup (60 seconds)</p>
+            <ol style="font-size:14px;color:var(--text-muted);line-height:1.8;padding-left:18px;">
+              <li>Download the file below</li>
+              <li>Go to <strong>claude.ai</strong> and start a new chat</li>
+              <li>Click the attachment icon and upload the file</li>
+              <li>Tell Claude: "Use this skill file to build me a Command Centre for my business" and paste in your brand details</li>
+            </ol>
+            <p style="font-size:13px;color:var(--text-muted);margin-top:12px;">Claude will generate the HTML. Copy it, save as a .html file, and open in your browser. Done!</p>
           </div>
           <a href="command-centre.md" download="SKILL.md" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-body);font-size:17px;font-weight:700;color:var(--navy);background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);padding:16px 36px;border-radius:100px;text-decoration:none;box-shadow:0 4px 20px rgba(212,175,103,0.40);transition:transform 0.18s;">Download SKILL.md</a>
         </div>
@@ -1142,6 +1175,20 @@
       // NOTE: When GHL is connected, remove the preventDefault and
       // success state above - GHL handles redirect/thank you page.
     });
+
+    // ============================================================
+    // Setup tabs
+    // ============================================================
+    function showTab(id) {
+      document.querySelectorAll('.setup-panel').forEach(function(p) { p.style.display = 'none'; });
+      document.getElementById('tab-' + id).style.display = 'block';
+      document.querySelectorAll('.setup-tab').forEach(function(t) {
+        t.style.color = 'var(--text-muted)';
+        t.style.borderBottomColor = 'transparent';
+      });
+      event.target.style.color = 'var(--navy)';
+      event.target.style.borderBottomColor = 'var(--gold)';
+    }
   </script>
 
 </body>
